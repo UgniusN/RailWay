@@ -1,0 +1,14 @@
+.profileBase {
+    display: flex;
+    background-color: #e0e0e0;
+    
+    padding: 30% !important;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileButton {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
