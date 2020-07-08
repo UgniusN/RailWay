@@ -1,7 +1,7 @@
 INSERT INTO Users(user_id, username, password, name, last_name)
     VALUES(1, 'user', '{bcrypt}$2y$12$A7x.2lPxE6YdV8ed6OYbDucRiod32wqMF9JNerE.wq4glQWaIjRnO', 'John', 'Doe');
 INSERT INTO Users(user_id, username, password, name, last_name)
-    VALUES(2, 'admin', '{bcrypt}$2y$12$Idmjp6dBiFlYWheXcOGTfOfzpywTZ6sTeWN02jKvDSukc/8wD4JfS', 'Jack', 'Sparrow');
+    VALUES(2, 'admin', '{bcrypt}$2y$12$jaiC529zQHGtoCsskRCwCOcGDJTeTaiUtHSLado1RwlgCD3bXXotS', 'Jack', 'Sparrow');
 
 
 INSERT INTO Roles(role_id, role) VALUES(1, 'CUSTOMER');
