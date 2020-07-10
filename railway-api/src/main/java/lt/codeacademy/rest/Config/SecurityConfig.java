@@ -1,32 +1,28 @@
 package lt.codeacademy.rest.Config;
 
 
-import lt.codeacademy.rest.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  extends WebSecurityConfigurerAdapter {
-
-
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
+    private UserDetailsService userDetailsService;
 
     private final OrRequestMatcher PRIVATE_ROUTES = new OrRequestMatcher(
             new AntPathRequestMatcher("/v1/private/**"),
@@ -36,10 +32,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .requestMatchers(new OrRequestMatcher(new AntPathRequestMatcher("/private/**"))).authenticated()
-//                    .anyRequest().authenticated()
+
+                .authorizeRequests().anyRequest().permitAll()
+//                .anyRequest() //Jei norime turėti dalį public route šios eilutės nereikia, o viršutinę reikia atkomentuoti, visi route'ai prasidedantys /private reikalaus credential
                 .and()
+                .headers().frameOptions().disable().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -47,26 +44,17 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .and()
-                .headers().frameOptions().sameOrigin()
-                .and()
                 .csrf().disable();
-    }
 
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService);
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder();
-        //return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public PasswordEncoder encoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

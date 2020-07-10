@@ -1,6 +1,6 @@
 import React from 'react'
-import usersApi from '../../../Api/usersApi'
-import TravelCard from '../Travel-Card/TravelCard'
+import usersApi from '../../../../Api/usersApi'
+import TravelCard from '../../Travel-Card/TravelCard'
 import {useEffect,useState} from 'react';
 
 export default (props) => {
@@ -9,7 +9,9 @@ export default (props) => {
 
 const travelList = travels.map(travel => {
     return (
+        <div>
      <TravelCard startdestination={travel.start_destination} enddestination={travel.end_destination} price={travel.price}></TravelCard>
+     </div>
     )
   })
 

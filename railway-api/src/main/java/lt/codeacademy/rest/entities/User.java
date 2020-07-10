@@ -13,18 +13,23 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
-@Table(name="Users")
+@Table(name = "Users")
 public class User implements UserDetails {
+
+    public User() {
+
+    }
+
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = true, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = true)
     private String password;
 
     @Column(name = "name", nullable = true)
@@ -71,5 +76,4 @@ public class User implements UserDetails {
     public String getFullName() {
         return name + " " + lastName;
     }
-
 }

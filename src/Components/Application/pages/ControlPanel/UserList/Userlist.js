@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {useEffect, useState} from "react"
-import travelsApi from '../../../Api/usersApi'
+import travelsApi from '../../../../../Api/usersApi'
 
 
 const columns = [

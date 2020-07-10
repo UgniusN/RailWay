@@ -1,24 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react'
 import './App.css';
-import Navigation from './Components/ControlPanel/Navigation/Navigation'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import red from '@material-ui/core/colors/red'
 import ApplicationView from './Components/Application/ApplicationView'
-import { Provider } from 'react-redux'
-import { render } from 'react-dom'
-import { createStore } from 'redux'
-import store from './store'
-import rootReducer from './reducers'
+import {BrowserRouter as Router} from "react-router-dom";
 
+
+const UserContext = React.createContext(null)
 
 function App() {
-  const store = createStore(rootReducer)
+
+  const [user, setUser] = useState(null);
+
+  const userContextState = {
+      user,
+      login: (user) => setUser(user),
+      logout: () => setUser(null),
+      loggedIn: () => !!user
+  }
+
 
   return (
-    <Provider store={store}>
-      <ApplicationView/>
-      </Provider>
+    <UserContext.Provider value={userContextState}>
+      <Router>
+    <ApplicationView></ApplicationView>
+    </Router>
+    </UserContext.Provider>
   );
 }
 
 export default App;
+export {UserContext};

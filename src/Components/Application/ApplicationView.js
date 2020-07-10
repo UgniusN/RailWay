@@ -28,16 +28,24 @@ import './Application.css';
 import {useEffect,useState} from 'react';
 import usersApi from '../../Api/usersApi'
 import AppsIcon from '@material-ui/icons/Apps';
-import Navigation from '../ControlPanel/Navigation/Navigation';
-import ContolPanel from '../ControlPanel/ControlPanel';
+import Navigation from './pages/ControlPanel/Navigation/Navigation';
+import ContolPanel from './pages/ControlPanel/ControlPanel';
 import Profile from '../Profile/Profile'
+import Login from './pages/Login/Login'
+import Mytravels from './pages/MyTravels/MyTravels'
+import {setCredentials} from "../../Api";
+import {UserContext} from "../../App";
+import {useContext} from "react";
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
-import TravelList from '../Application/TravelList/TravelList'
+import TravelList from './pages/Travels/TravelList'
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 
 
@@ -106,6 +114,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MiniDrawer() {
+  const {user, logout, loggedIn} = useContext(UserContext)
+
+  
+
+  const logoutClick = (e) => {
+    e.preventDefault()
+    setCredentials(null)
+    logout()
+}
+
+
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -126,6 +145,7 @@ export default function MiniDrawer() {
         .then(response => setTravels(response.data))
   }, [])
   
+
 
   const travelList = travels.map(travel => {
    return (
@@ -212,16 +232,28 @@ export default function MiniDrawer() {
               <ListItemText primary={"My profile"}/>
               </ListItem>
             </Link>
+            {loggedIn() ?
             <Link to="/controlpanel" className={classes.Link}>
             <ListItem className={classes.link} button key='Log Out'>
             <ListItemIcon><AppsIcon/></ListItemIcon>
               <ListItemText primary='Control Panel'/>
             </ListItem>
-            </Link>
-            <ListItem className={classes.link} button key='Log Out'>
-            <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-              <ListItemText primary='Log Out'/>
-            </ListItem>
+            </Link> :
+            <Link/>
+                }
+            {!loggedIn() ? 
+            <Link to="/login" className={classes.Link}>
+            <ListItem className={classes.link} button key='Log in'>
+              <ListItemIcon><VpnKeyIcon/></ListItemIcon>
+                <ListItemText primary='Log In'/>
+              </ListItem>
+              </Link> : 
+              <Link className={classes.Link} onClick={logoutClick}>
+              <ListItem className={classes.link} button key='Log Out'>
+              <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                <ListItemText primary='Log out'/>
+              </ListItem>
+              </Link>}
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -232,13 +264,17 @@ export default function MiniDrawer() {
             <TravelList></TravelList>
             </Route>
             <Route path="/mytravels">
-          
+              <Mytravels/>
             </Route>
-            <Route path="/controlpanel">
+
+            <PrivateRoute exact path="/controlpanel" role="ADMIN">
               <ContolPanel></ContolPanel>
-            </Route>
-            <Route path="/profile">
-              <Profile></Profile>
+            </PrivateRoute>
+            <PrivateRoute exact path="/profile" role="ADMIN">
+              <Profile/>
+            </PrivateRoute>
+            <Route path="/login" component={Login}>
+              <Login></Login>
             </Route>
         </Switch>
         
