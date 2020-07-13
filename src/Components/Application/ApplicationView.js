@@ -15,30 +15,28 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import TrainIcon from '@material-ui/icons/Train';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import HomeIcon from '@material-ui/icons/Home';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import TravelCard from '../Application/Travel-Card/TravelCard'
+import TravelCard from '../../pages/ControlPanel/Travel-Card/TravelCard'
 import './Application.css';
 import {useEffect,useState} from 'react';
-import usersApi from '../../Api/usersApi'
+import usersApi from '../../Api/travelApi'
 import AppsIcon from '@material-ui/icons/Apps';
-import Navigation from './pages/ControlPanel/Navigation/Navigation';
-import ContolPanel from './pages/ControlPanel/ControlPanel';
-import Profile from '../Profile/Profile'
-import Login from './pages/Login/Login'
-import Mytravels from './pages/MyTravels/MyTravels'
+import Navigation from '../../pages/ControlPanel/Navigation/Navigation';
+import ContolPanel from '../../pages/ControlPanel/ControlPanel';
+import Profile from '../../pages/Profile/Profile'
+import Login from '../../pages/Login/Login'
+import Mytravels from '../../pages/MyTravels/MyTravels'
 import {setCredentials} from "../../Api";
 import {UserContext} from "../../App";
 import {useContext} from "react";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
-import TravelList from './pages/Travels/TravelList'
+import TravelList from '../../pages/Travels/TravelList'
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import {
   BrowserRouter as Router,
@@ -47,6 +45,8 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import Register from '../../pages/Register/Register';
+import Travel from '../../pages/Travel/Travel';
 
 
 const drawerWidth = 240;
@@ -124,7 +124,6 @@ export default function MiniDrawer() {
     logout()
 }
 
-
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -137,7 +136,6 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-
   const [travels, setTravels] = useState([]);
 
   useEffect(() => {
@@ -145,14 +143,6 @@ export default function MiniDrawer() {
         .then(response => setTravels(response.data))
   }, [])
   
-
-
-  const travelList = travels.map(travel => {
-   return (
-    <TravelCard startdestination={travel.start_destination} enddestination={travel.end_destination} price={travel.price}></TravelCard>
-   )
- })
-
 
   return (
     <Router>
@@ -213,46 +203,65 @@ export default function MiniDrawer() {
               <ListItemText primary={"Travels"} />
             </ListItem>
             </Link>
-            <Link to="/mytravels" className={classes.Link}>
-            <ListItem  button key='Mytravels'>
-            <ListItemIcon><ConfirmationNumberIcon/></ListItemIcon>
-              <ListItemText primary={"My Travels"} className="text-link"/>
-            </ListItem>
-            </Link>
         </List>
         <Divider />
         <List>
-            <ListItem button key='Home'>
-              <ListItemIcon><AccountBoxIcon/></ListItemIcon>
-              <ListItemText primary='My Cart'/>
-            </ListItem>
-            <Link to="/profile" className={classes.Link}>
-              <ListItem className={classes.link} button key='My profile'>
-              <ListItemIcon><TrainIcon/></ListItemIcon>
-              <ListItemText primary={"My profile"}/>
+        {
+            loggedIn() ?
+            <Link to="/mytravels" className={classes.Link}>
+              <ListItem  button key='Mytravels'>
+                <ListItemIcon>
+                  <ConfirmationNumberIcon/>
+                </ListItemIcon>
+                <ListItemText primary={"My Travels"} className="text-link"/>
               </ListItem>
             </Link>
-            {loggedIn() ?
+             :
+             <Link/>
+        }
+
+            {
+            loggedIn() ?
+            <Link to="/profile" className={classes.Link}>
+              <ListItem className={classes.link} button key='My profile'>
+                <ListItemIcon>
+                  <AccountBoxIcon/>
+                </ListItemIcon>
+                <ListItemText primary={"My profile"}/>
+              </ListItem> 
+            </Link>:
+            <Link/>
+            }
+
+            {
+            loggedIn() ?
             <Link to="/controlpanel" className={classes.Link}>
-            <ListItem className={classes.link} button key='Log Out'>
-            <ListItemIcon><AppsIcon/></ListItemIcon>
-              <ListItemText primary='Control Panel'/>
-            </ListItem>
+              <ListItem className={classes.link} button key='Log Out'>
+                <ListItemIcon>
+                  <AppsIcon />
+                </ListItemIcon>
+                <ListItemText primary='Control Panel'/>
+              </ListItem>
             </Link> :
             <Link/>
-                }
+            }
+
             {!loggedIn() ? 
             <Link to="/login" className={classes.Link}>
-            <ListItem className={classes.link} button key='Log in'>
-              <ListItemIcon><VpnKeyIcon/></ListItemIcon>
+              <ListItem className={classes.link} button key='Log in'>
+                <ListItemIcon>
+                  <VpnKeyIcon />
+                </ListItemIcon>
                 <ListItemText primary='Log In'/>
               </ListItem>
-              </Link> : 
+            </Link> : 
               <Link className={classes.Link} onClick={logoutClick}>
-              <ListItem className={classes.link} button key='Log Out'>
-              <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                <ListItemText primary='Log out'/>
-              </ListItem>
+                <ListItem className={classes.link} button key='Log Out'>
+                  <ListItemIcon>
+                    <ExitToAppIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Log out'/>
+                </ListItem>
               </Link>}
         </List>
       </Drawer>
@@ -260,22 +269,34 @@ export default function MiniDrawer() {
         <div className={classes.toolbar} />
         <div className={classes.root}>
         <Switch>
-            <Route path="/travels">
-            <TravelList></TravelList>
-            </Route>
-            <Route path="/mytravels">
-              <Mytravels/>
-            </Route>
 
             <PrivateRoute exact path="/controlpanel" role="ADMIN">
-              <ContolPanel></ContolPanel>
+              <ContolPanel />
             </PrivateRoute>
+
             <PrivateRoute exact path="/profile" role="ADMIN">
-              <Profile/>
+              <Profile />
             </PrivateRoute>
+
             <Route path="/login" component={Login}>
-              <Login></Login>
+              <Login />
             </Route>
+
+            <Route path="/travels">
+              <TravelList />
+            </Route>
+
+            <Route path="/mytravels">
+              <Mytravels />
+            </Route>
+            
+            <Route path="/register">
+              <Register />
+            </Route>
+
+            <Route path="/travels/:id">
+              <Travel/>
+              </Route>
         </Switch>
         
       </div>

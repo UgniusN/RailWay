@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import UserList from '../../Components/ControlPanel/UserList/Userlist';
+import UserList from '../ControlPanel/UserList/Userlist';
 import '../ControlPanel/ControlPanel.css'
 import CreateTravel from '../ControlPanel/CreateTravel/CreateTravel'
 import {

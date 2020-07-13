@@ -7,8 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import usersApi from '../../../Api/usersApi'
+import usersApi from '../../../Api/travelApi'
 import {useEffect, useState} from 'react';
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -48,9 +49,11 @@ export default function MediaCard(props) {
         <Button size="small" color="primary">
           Add to cart
         </Button>
+        <NavLink to={"/travels/" + props.id} key={props.id}>
         <Button size="small" color="primary">
           Buy now
         </Button>
+        </NavLink>
         <Typography gutterBottom variant="h6" component="h6">{props.price}€</Typography>
       </CardActions>
     </Card>

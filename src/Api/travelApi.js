@@ -5,7 +5,7 @@ export default {
         return HTTP.get('http://localhost:8080/api/getall')
     },
 
-    fetchProductById(id) {
+    fetchTravelById(id) {
         return HTTP.get(`http://localhost:8080/api/${id}`);
     },
     createTravel(values) {

@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import '../Profile/Profile.css';
-import Avatar from '../Profile/Avatar/Avatar'
+//import './Profile.css';
+import Avatar from './Avatar/Avatar'
 import { UserContext } from '../../App';
 
 

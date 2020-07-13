@@ -3,7 +3,9 @@ package lt.codeacademy.rest.controller;
 
 import lombok.Data;
 import lt.codeacademy.rest.entities.Role;
+import lt.codeacademy.rest.entities.Travel;
 import lt.codeacademy.rest.entities.User;
+import lt.codeacademy.rest.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,12 +22,24 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/user")
 public class UserController {
 
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping
     public UserDto getUser(@AuthenticationPrincipal User user) {
         return new UserDto(user);
     }
 
+    @PostMapping("/createuser")
+    public User buildUser(@RequestParam(name = "username") String username,
+                          @RequestParam(name = "password") String password,
+                          @RequestParam(name = "name") String name,
+                          @RequestParam(name = "lastname") String lastname,
+                          @RequestParam(name = "email") String email,
+                          @RequestParam(name = "country") String country)
+    {
+        return userDetailsService.buildUser(username,password,name,lastname,email,country);
+    }
 
     @Data
     private static class UserDto {

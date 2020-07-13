@@ -38,6 +38,12 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = true)
     private String lastName;
 
+    @Column(name = "email", nullable = true)
+    private String email;
+
+    @Column(name = "country", nullable = true)
+    private String country;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Users_Roles",
@@ -75,5 +81,14 @@ public class User implements UserDetails {
 
     public String getFullName() {
         return name + " " + lastName;
+    }
+
+    public void buildUser(String username, String password, String name, String lastname, String email, String country) {
+        this.username=username;
+        this.password=password;
+        this.name=name;
+        this.lastName=lastname;
+        this.email=email;
+        this.country=country;
     }
 }
