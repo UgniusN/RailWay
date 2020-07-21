@@ -1,19 +1,12 @@
 import React, {useContext} from "react";
 import {Field, Form, Formik} from "formik";
-import FormikState from "../../Components/FormikState";
 import {setCredentials} from "../../Api/index";
 import {UserContext} from "../../App";
 import userApi from "../../Api/userApi";
 import { useHistory, useLocation } from "react-router-dom"
 import { Button } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-  } from "react-router-dom";
+import {Link} from "react-router-dom";
 import './Login.css';
 
 const initialValues = {
@@ -47,19 +40,19 @@ export default () => {
                 <Form className="loginForm">
                     <div className="loginFields">
                         <div>
-                            <label htmlFor="username">Username:</label>
+                            <div>Username:</div>
                             <Field name="username" type="text" component={TextField} />
                         </div>
                         <div>
-                            <label htmlFor="password">Password:</label>
+                            <div>Password:</div>
                             <Field name="password" type="password" component={TextField} />
                         </div>
                         <div className="mygtukas">
-                            <Button variant="contained" color="primary" type="submit" className="buttonas">Login</Button>
+                            <Button variant="contained" color="primary" type="submit" className="buttonasLogin">Login</Button>
                         </div>
                         <div className="mygtukas">
-                        <Link to="/register">
-                            <Button variant="contained" color="primary" type="submit" className="buttonasregister" >Register</Button>
+                        <Link to="/register" className="buttonasRegister">
+                            <Button variant="contained" color="primary" type="submit" className="buttonasRegister" >Register</Button>
                             </Link>
                         </div>
                     </div>

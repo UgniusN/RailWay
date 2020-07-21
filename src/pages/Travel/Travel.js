@@ -1,7 +1,7 @@
-import react from 'react'
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import travelApi from '../../Api/travelApi';
+import { Button } from '@material-ui/core';
 
 export default() => {
     const { id } = useParams();
@@ -27,6 +27,8 @@ export default() => {
                 <div>
                 <h2>Date:</h2>
                 </div>
+
+                <Button>Purchase</Button>
         </div>
     )
 }

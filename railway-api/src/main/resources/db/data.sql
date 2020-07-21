@@ -9,8 +9,8 @@ INSERT INTO Roles(role_id, role) VALUES(2, 'ADMIN');
 INSERT INTO Users_Roles(user_id, role_id) VALUES(1, 1);
 INSERT INTO Users_Roles(user_id, role_id) VALUES(2, 2);
 
-INSERT INTO Travels(start_destination, end_destination, price) VALUES('Panevezys', 'Vilnius', 12.50);
-INSERT INTO Travels(start_destination, end_destination, price) VALUES('Vilnius', 'Kaunas', 15.50);
-INSERT INTO Travels(start_destination, end_destination, price) VALUES('Kaunas', 'Panevezys', 12.50);
-INSERT INTO Travels(start_destination, end_destination, price) VALUES('Panevezys', 'Klaipeda', 1.50);
-INSERT INTO Travels(start_destination, end_destination, price) VALUES('Kaunas', 'Klaipeda', 18.25);
+INSERT INTO Travels(start_destination, end_destination,date, price) VALUES('Panevezys','Vilnius','2020-04-09', 12.50);
+INSERT INTO Travels(start_destination, end_destination,date, price) VALUES('Vilnius','Kaunas','2020-05-12', 15.50);
+INSERT INTO Travels(start_destination, end_destination,date, price) VALUES('Kaunas','Panevezys','2020-02-14', 12.50);
+INSERT INTO Travels(start_destination, end_destination,date, price) VALUES('Panevezys','Klaipeda','2020-09-09', 1.50);
+INSERT INTO Travels(start_destination, end_destination,date, price) VALUES('Kaunas','Klaipeda','2020-07-12', 18.25);

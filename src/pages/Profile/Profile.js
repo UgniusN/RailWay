@@ -14,6 +14,7 @@ const{user} = useContext(UserContext)
         <Avatar></Avatar>
         <h2>{user.name}</h2>
         <h2>{user.lastName}</h2>
+        <h2>{user.username}</h2>
 
         <h3>Email: ugniusnaujokas@gmail.com</h3>
         <h3>Country: Lithuania</h3>

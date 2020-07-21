@@ -9,8 +9,8 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="Purchase")
-public class Purchase {
+@Table(name="Orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ public class Purchase {
     private Travel travel;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 
 }

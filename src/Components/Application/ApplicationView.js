@@ -19,14 +19,9 @@ import TrainIcon from '@material-ui/icons/Train';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import HomeIcon from '@material-ui/icons/Home';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import TravelCard from '../../pages/ControlPanel/Travel-Card/TravelCard'
 import './Application.css';
-import {useEffect,useState} from 'react';
-import usersApi from '../../Api/travelApi'
 import AppsIcon from '@material-ui/icons/Apps';
-import Navigation from '../../pages/ControlPanel/Navigation/Navigation';
 import ContolPanel from '../../pages/ControlPanel/ControlPanel';
 import Profile from '../../pages/Profile/Profile'
 import Login from '../../pages/Login/Login'
@@ -35,6 +30,7 @@ import {setCredentials} from "../../Api";
 import {UserContext} from "../../App";
 import {useContext} from "react";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import EditTravel from '../../pages/ControlPanel/EditTravel/EditTravel'
 
 import TravelList from '../../pages/Travels/TravelList'
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -43,10 +39,10 @@ import {
   Switch,
   Route,
   Link,
-  Redirect
 } from "react-router-dom";
 import Register from '../../pages/Register/Register';
-import Travel from '../../pages/Travel/Travel';
+import OrderConfirmation from '../../pages/OrderConfirmation/OrderConfirmation';
+import Home from '../../pages/Home/Home'
 
 
 const drawerWidth = 240;
@@ -114,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MiniDrawer() {
-  const {user, logout, loggedIn} = useContext(UserContext)
+  const {logout, loggedIn} = useContext(UserContext)
 
   
 
@@ -136,12 +132,7 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const [travels, setTravels] = useState([]);
 
-  useEffect(() => {
-    usersApi.fetchTravels()
-        .then(response => setTravels(response.data))
-  }, [])
   
 
   return (
@@ -149,6 +140,8 @@ export default function MiniDrawer() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+       style={{
+         backgroundColor:"#272C34"}}
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -217,7 +210,7 @@ export default function MiniDrawer() {
               </ListItem>
             </Link>
              :
-             <Link/>
+             <ListItem/>
         }
 
             {
@@ -230,7 +223,7 @@ export default function MiniDrawer() {
                 <ListItemText primary={"My profile"}/>
               </ListItem> 
             </Link>:
-            <Link/>
+            <ListItem/>
             }
 
             {
@@ -243,7 +236,7 @@ export default function MiniDrawer() {
                 <ListItemText primary='Control Panel'/>
               </ListItem>
             </Link> :
-            <Link/>
+            <ListItem></ListItem>
             }
 
             {!loggedIn() ? 
@@ -269,6 +262,9 @@ export default function MiniDrawer() {
         <div className={classes.toolbar} />
         <div className={classes.root}>
         <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
 
             <PrivateRoute exact path="/controlpanel" role="ADMIN">
               <ContolPanel />
@@ -282,7 +278,7 @@ export default function MiniDrawer() {
               <Login />
             </Route>
 
-            <Route path="/travels">
+            <Route exact path="/travels">
               <TravelList />
             </Route>
 
@@ -294,9 +290,9 @@ export default function MiniDrawer() {
               <Register />
             </Route>
 
-            <Route path="/travels/:id">
-              <Travel/>
-              </Route>
+            <Route exact path="/travels/:id">
+              <OrderConfirmation/>
+            </Route>
         </Switch>
         
       </div>

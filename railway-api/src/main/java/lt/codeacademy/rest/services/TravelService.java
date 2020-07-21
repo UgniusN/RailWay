@@ -19,15 +19,19 @@ public class TravelService {
         return travelRepository.findAll();
     }
 
-    public Travel createTravel(Travel product) {
-        return travelRepository.save(product);
+    public Travel createTravel(Travel travel) {
+        return travelRepository.save(travel);
     }
 
-    public Travel getArticleById(Long id) {
+    public Travel getTravelById(Long id) {
         return travelRepository.findById(id).orElseThrow(null);
     }
 
-    public Travel buildTraver(Travel travel) {
+    public Travel buildTravel(Travel travel) {
         return travelRepository.save(travel);
+    }
+
+    public void deleteTravel(Travel travel) {
+        travelRepository.delete(travel);
     }
 }

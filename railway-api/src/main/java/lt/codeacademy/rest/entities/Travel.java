@@ -41,4 +41,7 @@ public class Travel {
     @DecimalMin("0.01")
     @NotNull
     private BigDecimal price;
+
+    @Column(name = "date")
+    private String date;
 }

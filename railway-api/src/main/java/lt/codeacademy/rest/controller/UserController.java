@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/createuser")
-    public User buildUser(@RequestParam(name = "username") String username,
-                          @RequestParam(name = "password") String password,
+    public User buildUser(@RequestParam(name = "user") String username,
+                          @RequestParam(name = "pass") String password,
                           @RequestParam(name = "name") String name,
                           @RequestParam(name = "lastname") String lastname,
                           @RequestParam(name = "email") String email,
@@ -43,11 +43,13 @@ public class UserController {
 
     @Data
     private static class UserDto {
+        private Long userid;
         private String name;
         private String lastName;
         private Set<String> roles;
 
         UserDto(User user) {
+            this.userid = user.getId();
             this.name = user.getName();
             this.lastName = user.getLastName();
             this.roles = user.getRoles().stream().map(Role::getRole).collect(Collectors.toSet());

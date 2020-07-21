@@ -8,7 +8,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {NavLink} from "react-router-dom";
-import './TravelCard.css'
 
 const useStyles = makeStyles({
   root: {
@@ -48,12 +47,11 @@ export default function MediaCard(props) {
       </NavLink>
       <CardActions>
         <NavLink to={"/travels/" + props.id} key={props.id}>
-        <Button size="small" color="primary">
-          Buy now
-        </Button>
         </NavLink>
-        <Typography gutterBottom variant="h6" component="h6">{props.price}€</Typography>
-        <Typography gutterBottom variant="h6" component="h6" className="date">{props.date}</Typography>
+        <Typography gutterBottom variant="h6" component="h6">Date: {props.date}</Typography>
+        <Button size="small" color="primary">
+          View ticket
+        </Button>
       </CardActions>
     </Card>
   );
