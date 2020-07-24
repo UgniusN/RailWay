@@ -1,7 +1,7 @@
-INSERT INTO Users(user_id, username, password, name, last_name)
-    VALUES(1, 'user', '{bcrypt}$2y$12$A7x.2lPxE6YdV8ed6OYbDucRiod32wqMF9JNerE.wq4glQWaIjRnO', 'John', 'Doe');
-INSERT INTO Users(user_id, username, password, name, last_name)
-    VALUES(2, 'admin', '{bcrypt}$2y$12$A7x.2lPxE6YdV8ed6OYbDucRiod32wqMF9JNerE.wq4glQWaIjRnO', 'Jack', 'Sparrow');
+INSERT INTO Users(user_id, username, password, name, last_name,email,country)
+    VALUES(1, 'user', '{bcrypt}$2y$12$A7x.2lPxE6YdV8ed6OYbDucRiod32wqMF9JNerE.wq4glQWaIjRnO', 'Ugnius', 'Naujokas','ugniusnaujokas@gmail.com','Lietuva');
+INSERT INTO Users(user_id, username, password, name, last_name,email,country)
+    VALUES(2, 'admin', '{bcrypt}$2y$12$A7x.2lPxE6YdV8ed6OYbDucRiod32wqMF9JNerE.wq4glQWaIjRnO', 'Rimas', 'Tatoris','rimastatt@gmail.com','Amerika');
 
 INSERT INTO Roles(role_id, role) VALUES(1, 'CUSTOMER');
 INSERT INTO Roles(role_id, role) VALUES(2, 'ADMIN');

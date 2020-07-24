@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @NotNull
     @Column(name = "email", nullable = true)
     private String email;
-    
+
     @NotNull
     @Column(name = "country", nullable = true)
     private String country;
