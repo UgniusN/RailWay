@@ -26,6 +26,11 @@ public class OrderController {
         return orderService.buildOrder(travelid,userid);
     }
 
+    @GetMapping("/getorder/{id}")
+    public OrderDTO getOrder(@PathVariable Long id) {
+        return new OrderDTO().build(orderService.getOrderByID(id));
+    }
+
     @GetMapping("/userorders")
     public List<OrderDTO> getUserOrders(@AuthenticationPrincipal User user) {
         return orderService.getUserOrders(user.getId());

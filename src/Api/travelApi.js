@@ -8,21 +8,21 @@ export default {
     async fetchTravelById(id) {
         return await HTTP.get(`http://localhost:8080/api/${id}`);
     },
-    createTravel(values,date) {
+    createTravel(values) {
         let data= new FormData();
         data.append("startdestination",values.start_destination);
         data.append("enddestination",values.end_destination);
         data.append("price",values.price);
-        data.append("date",date)
+        data.append("date",values.date)
         return HTTP.post('http://localhost:8080/api/createtravel', data);
     },
 
-    editTravel(values,date,id) {
+    editTravel(values,id) {
         let data = new FormData();
         data.append("startdestination",values.start_destination);
         data.append("enddestination",values.end_destination);
         data.append("price",values.price);
-        data.append("date",date)
+        data.append("date",values.date)
         data.append("id",id)
         return HTTP.post('http://localhost:8080/api/updatetravel', data);
     },

@@ -24,7 +24,7 @@ public class TravelService {
     }
 
     public Travel getTravelById(Long id) {
-        return travelRepository.findById(id).orElseThrow(null);
+        return travelRepository.findById(id).orElseThrow(() -> new RuntimeException());
     }
 
     public Travel buildTravel(Travel travel) {

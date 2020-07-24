@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,31 +19,32 @@ import java.util.stream.Collectors;
 @Table(name = "Users")
 public class User implements UserDetails {
 
-    public User() {
-
-    }
-
-
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
+    @NotNull
     @Column(name = "username", nullable = true, unique = true)
     private String username;
 
+    @NotNull
     @Column(name = "password", nullable = true)
     private String password;
 
+    @NotNull
     @Column(name = "name", nullable = true)
     private String name;
 
+    @NotNull
     @Column(name = "last_name", nullable = true)
     private String lastName;
 
+    @NotNull
     @Column(name = "email", nullable = true)
     private String email;
-
+    
+    @NotNull
     @Column(name = "country", nullable = true)
     private String country;
 
@@ -85,6 +87,7 @@ public class User implements UserDetails {
     public String getFullName() {
         return name + " " + lastName;
     }
+
 
     public void buildUser(String username, String password, String name, String lastname, String email, String country) {
         this.username=username;

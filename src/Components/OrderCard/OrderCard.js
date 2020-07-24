@@ -27,7 +27,7 @@ export default function MediaCard(props) {
   return (
     
     <Card className={classes.root}>
-      <NavLink to={"/travels/" + props.id} key={props.id}>
+        <NavLink to={"/mytravels/" + props.id} key={props.id}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -46,8 +46,6 @@ export default function MediaCard(props) {
       </CardActionArea>
       </NavLink>
       <CardActions>
-        <NavLink to={"/travels/" + props.id} key={props.id}>
-        </NavLink>
         <Typography gutterBottom variant="h6" component="h6">Date: {props.date}</Typography>
         <Button size="small" color="primary">
           View ticket

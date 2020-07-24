@@ -3,46 +3,42 @@ import Button from '@material-ui/core/Button';
 import UserList from './TravelTable/TravelTable';
 import '../ControlPanel/ControlPanel.css'
 import CreateTravel from '../ControlPanel/CreateTravel/CreateTravel'
+import { useTranslation } from 'react-i18next';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
     Link
   } from "react-router-dom";
-  import EditTravel from '../../pages/ControlPanel/EditTravel/EditTravel'
-   import PrivateRoute from "../../Components/PrivateRoute/PrivateRoute";
+import EditTravel from '../../pages/ControlPanel/EditTravel/EditTravel'
+import PrivateRoute from "../../Components/PrivateRoute/PrivateRoute";
 
+export default () => {
+   const {t} = useTranslation("controlpanel")
+   return (
 
-export default () => (
     <Router>
-    <div className="cpview">
-    <Link to="/controlpanel/travellist">
-    <Button variant="contained" color="primary">
-        Manage Travels
-     </Button>
-     </Link>
-     <Button variant="contained" color="primary">
-        Manage Users
-     </Button>
-     <Button variant="contained" color="primary">
-        Past Travels
-     </Button>
+      <div className="cpview">
+      <Link to="/controlpanel/travellist">
+         <Button variant="contained" color="primary">
+            {t("managetravels")}
+         </Button>
+      </Link>
      <Link to="/controlpanel/createtravel">
-     <Button variant="contained" color="primary">
-        Create Travel
-     </Button>
+         <Button variant="contained" color="primary">
+            {t("createtravel")}
+         </Button>
      </Link>
      <Switch>
-         <Route path="/controlpanel/travellist">
+         <PrivateRoute path="/controlpanel/travellist">
             <UserList/>
-         </Route>
-         <Route path="/controlpanel/createtravel">
+         </PrivateRoute>
+         <PrivateRoute path="/controlpanel/createtravel">
             <CreateTravel/>
-         </Route>
-         <PrivateRoute path="/controlpanel/edittravel/:id">
-              <EditTravel/>
-            </PrivateRoute>
+         </PrivateRoute>
+         <PrivateRoute exact path="/controlpanel/edittravel/:id">
+            <EditTravel/>
+         </PrivateRoute>
      </Switch>
     </div>
     </Router>
-)
+)}

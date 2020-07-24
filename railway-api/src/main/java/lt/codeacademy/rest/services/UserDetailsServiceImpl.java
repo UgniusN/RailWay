@@ -33,7 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public User buildUser(String username, String password, String name, String lastname, String email, String country ) {
         User user = new User();
         user.buildUser(username,passwordEncoder.encode(password),name,lastname,email,country);
-
         return userRepository.save(user);
     }
 

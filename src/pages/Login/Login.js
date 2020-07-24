@@ -7,14 +7,28 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Button } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
 import {Link} from "react-router-dom";
+import {ErrorMessage} from "formik";
 import './Login.css';
+import '../../validation';
+import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 const initialValues = {
     username: '',
     password: ''
 }
 
+
 export default () => {
+    const {t} = useTranslation("login")
+
+    const validationSchema = Yup.object().shape({
+        username: Yup.string()
+        .required(t("emptyuser")),
+        password: Yup.string()
+        .required(t("emptypassword"))
+    })
+
     const {login} = useContext(UserContext)
     const history = useHistory();
     const location = useLocation()
@@ -35,27 +49,29 @@ export default () => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={onSubmit}>
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+        >
             {(props) => (
                 <Form className="loginForm">
                     <div className="loginFields">
                         <div>
-                            <div>Username:</div>
-                            <Field name="username" type="text" component={TextField} />
+                            <div>{t("username")}</div>
+                                <Field name="username" type="text" component={TextField} />
+                            </div>
+                            <div>
+                                <div>{t("password")}</div>
+                                <Field name="password" type="password" component={TextField} />
+                            </div>
+                            <div className="mygtukas">
+                                <Button variant="contained" color="primary" type="submit" className="buttonasLogin">{t("login")}</Button>
+                            </div>
+                            <div className="mygtukas">
+                                <Link to="/register" className="buttonasRegister">
+                                    <Button variant="contained" color="primary" type="submit" className="buttonasRegister" >{t("register")}</Button>
+                                </Link>
+                            </div>
                         </div>
-                        <div>
-                            <div>Password:</div>
-                            <Field name="password" type="password" component={TextField} />
-                        </div>
-                        <div className="mygtukas">
-                            <Button variant="contained" color="primary" type="submit" className="buttonasLogin">Login</Button>
-                        </div>
-                        <div className="mygtukas">
-                        <Link to="/register" className="buttonasRegister">
-                            <Button variant="contained" color="primary" type="submit" className="buttonasRegister" >Register</Button>
-                            </Link>
-                        </div>
-                    </div>
                 </Form>
             )}
         </Formik>

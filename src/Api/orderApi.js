@@ -9,6 +9,10 @@ export default {
         return HTTP.post('http://localhost:8080/api/order/createorder', userdata);
     },
 
+    fetchOrderById(id) {
+        return HTTP.get(`http://localhost:8080/api/order/getorder/${id}`);
+    },
+
     fetchUserOrders() {
         return HTTP.get('http://localhost:8080/api/order/userorders')
         debugger

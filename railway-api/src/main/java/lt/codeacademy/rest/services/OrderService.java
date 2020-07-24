@@ -1,11 +1,13 @@
 package lt.codeacademy.rest.services;
 
 
+import lt.codeacademy.rest.Exceptions.OrderNotFoundException;
 import lt.codeacademy.rest.dto.OrderDTO;
 import lt.codeacademy.rest.entities.Order;
 import lt.codeacademy.rest.entities.User;
 import lt.codeacademy.rest.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ public class OrderService{
         return new OrderDTO().getOrderDTO(orderRepository.findAllByUser(user));
     }
 
-    public Order getOrderByID() {
-        return null;
+    public Order getOrderByID(Long id) {
+        return orderRepository.findById(id).orElseThrow(() ->(new OrderNotFoundException("Order by id " + id + " was not found.")));
     }
 
     public Order buildOrder(Long travelid, Long userid) {

@@ -30,10 +30,12 @@ public class Travel {
     @ApiModelProperty(hidden = true)
     private Long id;
 
+    @NotNull
     @Column(name = "start_destination")
     @NotEmpty
     private String start_destination;
 
+    @NotNull
     @Column(name = "end_destination")
     private String end_destination;
 
@@ -42,6 +44,7 @@ public class Travel {
     @NotNull
     private BigDecimal price;
 
+    @NotNull
     @Column(name = "date")
     private String date;
 }

@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {NavLink} from "react-router-dom";
 import './TravelCard.css'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
 export default function MediaCard(props) {
   const classes = useStyles();
   console.log(props);
-
+  const {t} = useTranslation("buycard")
 
 
   return (
@@ -49,7 +50,7 @@ export default function MediaCard(props) {
       <CardActions>
         <NavLink to={"/travels/" + props.id} key={props.id}>
         <Button size="small" color="primary">
-          Buy now
+          {t("buynow")}
         </Button>
         </NavLink>
         <Typography gutterBottom variant="h6" component="h6">{props.price}€</Typography>

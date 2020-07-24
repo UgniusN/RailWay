@@ -12,6 +12,7 @@ import travelsApi from '../../../Api/travelApi'
 import { Button } from '@material-ui/core';
 import {NavLink} from "react-router-dom";
 import './TravelTable.css';
+import { useTranslation } from 'react-i18next';
  
  
 const columns = [
@@ -38,8 +39,6 @@ const columns = [
   },
 ];
  
- 
- 
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -52,6 +51,8 @@ const useStyles = makeStyles({
 export default function StickyHeadTable() {
  
   const [travels, setTravels] = useState([]);
+
+  const {t} = useTranslation("controlpanel")
  
   useEffect(() => {
     travelsApi.fetchTravels()
@@ -91,7 +92,7 @@ export default function StickyHeadTable() {
                   })}
                   <TableCell>
                     <NavLink to={"/controlpanel/edittravel/" + rowid} key={rowid}>
-                    <Button style={{ backgroundColor: "#4caf50",color: "white"}}>Edit</Button>
+                      <Button style={{ backgroundColor: "#4caf50",color: "white"}}>{t("edit")}</Button>
                     </NavLink>
                   </TableCell>
                 </TableRow>
@@ -101,6 +102,7 @@ export default function StickyHeadTable() {
         </Table>
       </TableContainer>
       <TablePagination
+        labelRowsPerPage={t("rowsperpage")}
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={travels.length}

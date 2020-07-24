@@ -31,6 +31,9 @@ import {UserContext} from "../../App";
 import {useContext} from "react";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import EditTravel from '../../pages/ControlPanel/EditTravel/EditTravel'
+import TravelTicket from '../../pages/TravelTicket/TravelTicket'
+import { useTranslation } from 'react-i18next';
+
 
 import TravelList from '../../pages/Travels/TravelList'
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -112,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MiniDrawer() {
   const {logout, loggedIn} = useContext(UserContext)
 
-  
+  const{user} = useContext(UserContext)
 
   const logoutClick = (e) => {
     e.preventDefault()
@@ -132,7 +135,14 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const {i18n} = useTranslation();
 
+  const changeLanguage = lang => e => {
+      e.preventDefault();
+      i18n.changeLanguage(lang);
+  }
+
+  const {t} = useTranslation("navigation")
   
 
   return (
@@ -162,6 +172,11 @@ export default function MiniDrawer() {
           <Typography variant="h6" noWrap>
             Railway
           </Typography>
+          <div>
+          <a href="#" onClick={changeLanguage('lt')} className="lang">LT</a>
+                        &nbsp;
+                        <a href="#" onClick={changeLanguage('en')} className="lang">EN</a>
+            </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -187,13 +202,13 @@ export default function MiniDrawer() {
         <Link to="/" className={classes.Link}>
         <ListItem button key='Home'>
             <ListItemIcon><HomeIcon/></ListItemIcon>
-              <ListItemText primary='Home' />
+              <ListItemText primary={t("home")} />
             </ListItem>
             </Link>
             <Link to="/travels" className={classes.Link}>
             <ListItem className={classes.link} button key='Travels'>
             <ListItemIcon><TrainIcon/></ListItemIcon>
-              <ListItemText primary={"Travels"} />
+              <ListItemText primary={t("travels")} />
             </ListItem>
             </Link>
         </List>
@@ -206,28 +221,14 @@ export default function MiniDrawer() {
                 <ListItemIcon>
                   <ConfirmationNumberIcon/>
                 </ListItemIcon>
-                <ListItemText primary={"My Travels"} className="text-link"/>
+                <ListItemText primary={t("mytravels")} className="text-link"/>
               </ListItem>
-            </Link>
-             :
-             <ListItem/>
+            </Link> : null
         }
 
-            {
-            loggedIn() ?
-            <Link to="/profile" className={classes.Link}>
-              <ListItem className={classes.link} button key='My profile'>
-                <ListItemIcon>
-                  <AccountBoxIcon/>
-                </ListItemIcon>
-                <ListItemText primary={"My profile"}/>
-              </ListItem> 
-            </Link>:
-            <ListItem/>
-            }
 
             {
-            loggedIn() ?
+            loggedIn() && user.roles.includes("ADMIN") ?
             <Link to="/controlpanel" className={classes.Link}>
               <ListItem className={classes.link} button key='Log Out'>
                 <ListItemIcon>
@@ -235,8 +236,7 @@ export default function MiniDrawer() {
                 </ListItemIcon>
                 <ListItemText primary='Control Panel'/>
               </ListItem>
-            </Link> :
-            <ListItem></ListItem>
+            </Link> : null
             }
 
             {!loggedIn() ? 
@@ -245,7 +245,7 @@ export default function MiniDrawer() {
                 <ListItemIcon>
                   <VpnKeyIcon />
                 </ListItemIcon>
-                <ListItemText primary='Log In'/>
+                <ListItemText primary={t("login")}/>
               </ListItem>
             </Link> : 
               <Link className={classes.Link} onClick={logoutClick}>
@@ -253,7 +253,7 @@ export default function MiniDrawer() {
                   <ListItemIcon>
                     <ExitToAppIcon />
                   </ListItemIcon>
-                  <ListItemText primary='Log out'/>
+                  <ListItemText primary={t("logout")}/>
                 </ListItem>
               </Link>}
         </List>
@@ -266,7 +266,7 @@ export default function MiniDrawer() {
               <Home />
             </Route>
 
-            <PrivateRoute exact path="/controlpanel" role="ADMIN">
+            <PrivateRoute path="/controlpanel" role="ADMIN">
               <ContolPanel />
             </PrivateRoute>
 
@@ -282,17 +282,21 @@ export default function MiniDrawer() {
               <TravelList />
             </Route>
 
-            <Route path="/mytravels">
+            <PrivateRoute exact path="/mytravels">
               <Mytravels />
-            </Route>
+            </PrivateRoute>
             
             <Route path="/register">
               <Register />
             </Route>
 
-            <Route exact path="/travels/:id">
+            <PrivateRoute exact path="/travels/:id">
               <OrderConfirmation/>
-            </Route>
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/mytravels/:id">
+              <TravelTicket/>
+            </PrivateRoute>
         </Switch>
         
       </div>
